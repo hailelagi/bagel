@@ -1,9 +1,9 @@
-use std::alloc::{alloc, dealloc, Layout};
+use std::alloc::{dealloc, Layout};
 
-//
+// todo:
 const INITIAL_BLOCKS: usize = 10;
 
-// default size on 32 bit linux
+// todo:
 const DEFAULT_BLOCK_SIZE: usize = 64;
 
 struct ListNode {
@@ -39,7 +39,7 @@ impl FreeList {
                 let aligned_ptr = (node_ptr + align_mask) & !align_mask;
                 let offset = aligned_ptr - node_ptr;
                 if offset <= node.size - layout_size {
-                    unsafe { Some(Box::from_raw((aligned_ptr) as *mut ListNode)) }
+                    // unsafe { Some(Box::from_raw((aligned_ptr) as *mut ListNode)) }
 
                     return aligned_ptr as *mut u8;
                 } else {
