@@ -46,7 +46,15 @@ pub fn build(b: *std.Build) void {
         "-pthread",
     };
 
-    // todo: auto detect this from homebrew, zig package manager? or curl/http git clone?
+    // automate the git clone if the googletest folder is not present
+    const fetch_gtest = b.addSystemCommand(&.{
+        "sh",
+        "-c",
+        "if [ ! -d googletest ]; then git clone https://github.com/google/googletest.git; fi",
+    });
+
+    gtest.step.dependOn(&fetch_gtest.step);
+
     gtest.addCSourceFile(.{
         .file = .{ .cwd_relative = "googletest/googletest/src/gtest-all.cc" },
         .flags = &gtest_include_flags,
